@@ -1,0 +1,63 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Launch Publisher",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build-pub",
+			"program": "${workspaceFolder}/NatsServiceOutageDemo.Publisher/bin/Debug/net8.0/NatsServiceOutageDemo.Publisher.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}/NatsServiceOutageDemo.Publisher",
+			"console": "externalTerminal",
+			"stopAtEntry": false,
+			"env": {
+				"DOTNET_ENVIRONMENT": "Development"
+			}
+		},
+		{
+			"name": "Launch Consumer",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build-js",
+			"program": "${workspaceFolder}/NatsServiceOutageDemo.Consumer/bin/Debug/net8.0/NatsServiceOutageDemo.Consumer.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}/NatsServiceOutageDemo.Consumer",
+			"console": "externalTerminal",
+			"stopAtEntry": false,
+			"env": {
+				"DOTNET_ENVIRONMENT": "Development"
+			}
+		},
+		{
+			"name": "Launch Subscriber",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build-sub",
+			"program": "${workspaceFolder}/NatsServiceOutageDemo.Subscriber/bin/Debug/net8.0/NatsServiceOutageDemo.Subscriber.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}/NatsServiceOutageDemo.Subscriber",
+			"console": "externalTerminal",
+			"stopAtEntry": false,
+			"env": {
+				"DOTNET_ENVIRONMENT": "Development"
+			}
+		},
+		{
+			"name": ".NET Core Attach",
+			"type": "coreclr",
+			"request": "attach"
+		}
+	],
+	"compounds": [
+		{
+			"name": "Pub/Sub",
+			"configurations": [
+				"Launch Publisher",
+				"Launch Subscriber"
+			],
+			"preLaunchTask": "build-all",
+			"stopAll": false
+		}
+	]
+}
