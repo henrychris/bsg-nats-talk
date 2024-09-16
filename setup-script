@@ -1,0 +1,27 @@
+dotnet new sln -n FinalNatsDemo
+ 
+dotnet new classlib -n FinalNatsDemo.Common
+dotnet sln add FinalNatsDemo.Common/FinalNatsDemo.Common.csproj
+dotnet add FinalNatsDemo.Common/FinalNatsDemo.Common.csproj package Nats.Net
+
+dotnet new console -n FinalNatsDemo.Orders
+dotnet sln add FinalNatsDemo.Orders/FinalNatsDemo.Orders.csproj
+dotnet add FinalNatsDemo.Orders/FinalNatsDemo.Orders.csproj package Nats.Net
+
+dotnet new worker -n FinalNatsDemo.Inventory
+dotnet sln add FinalNatsDemo.Inventory/FinalNatsDemo.Inventory.csproj
+dotnet add FinalNatsDemo.Inventory/FinalNatsDemo.Inventory.csproj package Nats.Net
+
+dotnet new worker -n FinalNatsDemo.Shipping
+dotnet sln add FinalNatsDemo.Shipping/FinalNatsDemo.Shipping.csproj
+dotnet add FinalNatsDemo.Shipping/FinalNatsDemo.Shipping.csproj package Nats.Net
+
+dotnet new worker -n FinalNatsDemo.Analytics
+dotnet sln add FinalNatsDemo.Analytics/FinalNatsDemo.Analytics.csproj
+dotnet add FinalNatsDemo.Analytics/FinalNatsDemo.Analytics.csproj package Nats.Net
+
+dotnet add FinalNatsDemo.Inventory/FinalNatsDemo.Inventory.csproj reference FinalNatsDemo.Common/FinalNatsDemo.Common.csproj
+dotnet add FinalNatsDemo.Orders/FinalNatsDemo.Orders.csproj reference FinalNatsDemo.Common/FinalNatsDemo.Common.csproj
+
+dotnet add FinalNatsDemo.Shipping/FinalNatsDemo.Shipping.csproj reference FinalNatsDemo.Common/FinalNatsDemo.Common.csproj
+dotnet add FinalNatsDemo.Analytics/FinalNatsDemo.Analytics.csproj reference FinalNatsDemo.Common/FinalNatsDemo.Common.csproj
