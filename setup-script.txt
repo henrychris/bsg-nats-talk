@@ -1,16 +1,27 @@
-dotnet new sln NatsIdempotentDemo
+dotnet new sln -n FinalNatsDemo
  
-dotnet new classlib -n NatsIdempotentDemo.Common
-dotnet sln add NatsIdempotentDemo.Common/NatsIdempotentDemo.Common.csproj
-dotnet add NatsIdempotentDemo.Common/NatsIdempotentDemo.Common.csproj package Nats.Net
+dotnet new classlib -n FinalNatsDemo.Common
+dotnet sln add FinalNatsDemo.Common/FinalNatsDemo.Common.csproj
+dotnet add FinalNatsDemo.Common/FinalNatsDemo.Common.csproj package Nats.Net
 
-dotnet new console -n NatsIdempotentDemo.Publisher
-dotnet sln add NatsIdempotentDemo.Publisher/NatsIdempotentDemo.Publisher.csproj
-dotnet add NatsIdempotentDemo.Publisher/NatsIdempotentDemo.Publisher.csproj package Nats.Net
+dotnet new console -n FinalNatsDemo.Orders
+dotnet sln add FinalNatsDemo.Orders/FinalNatsDemo.Orders.csproj
+dotnet add FinalNatsDemo.Orders/FinalNatsDemo.Orders.csproj package Nats.Net
 
-dotnet new worker -n NatsIdempotentDemo.Consumer
-dotnet sln add NatsIdempotentDemo.Consumer/NatsIdempotentDemo.Consumer.csproj
-dotnet add NatsIdempotentDemo.Consumer/NatsIdempotentDemo.Consumer.csproj package Nats.Net
+dotnet new worker -n FinalNatsDemo.Inventory
+dotnet sln add FinalNatsDemo.Inventory/FinalNatsDemo.Inventory.csproj
+dotnet add FinalNatsDemo.Inventory/FinalNatsDemo.Inventory.csproj package Nats.Net
 
-dotnet add NatsIdempotentDemo.Consumer/NatsIdempotentDemo.Consumer.csproj reference NatsIdempotentDemo.Common/NatsIdempotentDemo.Common.csproj
-dotnet add NatsIdempotentDemo.Publisher/NatsIdempotentDemo.Publisher.csproj reference NatsIdempotentDemo.Common/NatsIdempotentDemo.Common.csproj
+dotnet new worker -n FinalNatsDemo.Shipping
+dotnet sln add FinalNatsDemo.Shipping/FinalNatsDemo.Shipping.csproj
+dotnet add FinalNatsDemo.Shipping/FinalNatsDemo.Shipping.csproj package Nats.Net
+
+dotnet new worker -n FinalNatsDemo.Analytics
+dotnet sln add FinalNatsDemo.Analytics/FinalNatsDemo.Analytics.csproj
+dotnet add FinalNatsDemo.Analytics/FinalNatsDemo.Analytics.csproj package Nats.Net
+
+dotnet add FinalNatsDemo.Inventory/FinalNatsDemo.Inventory.csproj reference FinalNatsDemo.Common/FinalNatsDemo.Common.csproj
+dotnet add FinalNatsDemo.Orders/FinalNatsDemo.Orders.csproj reference FinalNatsDemo.Common/FinalNatsDemo.Common.csproj
+
+dotnet add FinalNatsDemo.Shipping/FinalNatsDemo.Shipping.csproj reference FinalNatsDemo.Common/FinalNatsDemo.Common.csproj
+dotnet add FinalNatsDemo.Analytics/FinalNatsDemo.Analytics.csproj reference FinalNatsDemo.Common/FinalNatsDemo.Common.csproj
