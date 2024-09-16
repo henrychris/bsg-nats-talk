@@ -7,9 +7,6 @@ var opts = new NatsOpts { Url = NatsConfig.DefaultUrl };
 await using var connection = new NatsConnection(opts);
 var messageCount = 0;
 
-// setup stream here or use cli
-
-
 var jsContext = new NatsJSContext(connection);
 var config = new StreamConfig(
     name: NatsConfig.StreamName,
@@ -17,8 +14,10 @@ var config = new StreamConfig(
 )
 {
     Storage = StreamConfigStorage.Memory, // messages will be lost once the nats server is reset.
+    DuplicateWindow = TimeSpan.FromSeconds(3),
 };
-await jsContext.CreateStreamAsync(config);
+
+await CreateStream(jsContext, config);
 
 while (true)
 {
@@ -37,12 +36,39 @@ while (true)
         return;
     }
 
+    var messageId = Guid.NewGuid().ToString();
+    var jsPubOpts = new NatsJSPubOpts { MsgId = messageId };
+
     await jsContext.PublishAsync(
         NatsConfig.SubjectName,
         message,
-        serializer: new NatsSerializer<Message>()
+        serializer: new NatsSerializer<Message>(),
+        opts: jsPubOpts
     );
+    Console.WriteLine("published message");
+
+    await Task.Delay(4000);
+
+    await jsContext.PublishAsync(
+        NatsConfig.SubjectName,
+        message,
+        serializer: new NatsSerializer<Message>(),
+        opts: jsPubOpts
+    );
+    Console.WriteLine("published duplicate message");
 
     Console.WriteLine($"Published message #{messageCount}.");
     messageCount++;
+}
+
+static async Task CreateStream(NatsJSContext jsContext, StreamConfig config)
+{
+    try
+    {
+        await jsContext.CreateStreamAsync(config);
+    }
+    catch (Exception)
+    {
+        await jsContext.UpdateStreamAsync(config);
+    }
 }
