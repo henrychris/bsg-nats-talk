@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NatsPubSubDemo.Publisher", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NatsPubSubDemo.Subscriber", "NatsPubSubDemo.Subscriber\NatsPubSubDemo.Subscriber.csproj", "{5A152D98-8986-482D-8FFD-942ED6F6FEFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NatsPubSubDemo.Common", "NatsPubSubDemo.Common\NatsPubSubDemo.Common.csproj", "{A55FF22C-00EC-467B-9DA0-2B69B95C8446}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{5A152D98-8986-482D-8FFD-942ED6F6FEFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A152D98-8986-482D-8FFD-942ED6F6FEFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A152D98-8986-482D-8FFD-942ED6F6FEFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A55FF22C-00EC-467B-9DA0-2B69B95C8446}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A55FF22C-00EC-467B-9DA0-2B69B95C8446}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A55FF22C-00EC-467B-9DA0-2B69B95C8446}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A55FF22C-00EC-467B-9DA0-2B69B95C8446}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

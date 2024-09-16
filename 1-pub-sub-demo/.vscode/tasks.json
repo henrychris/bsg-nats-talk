@@ -13,10 +13,10 @@
 			],
 			"problemMatcher": "$msCompile",
 			"group": {
-				"kind": "build",
-				"isDefault": true
+				"kind": "build"
 			}
-		},{
+		},
+		{
 			"label": "build-subscriber",
 			"command": "dotnet",
 			"type": "process",
@@ -28,8 +28,7 @@
 			],
 			"problemMatcher": "$msCompile",
 			"group": {
-				"kind": "build",
-				"isDefault": true
+				"kind": "build"
 			}
 		},
 		{
@@ -55,6 +54,22 @@
 				"${workspaceFolder}/NatsPubSubDemo.Publisher/NatsPubSubDemo.Publisher.csproj"
 			],
 			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "build-all",
+			"command": "dotnet",
+			"type": "process",
+			"args": [
+				"build",
+				"${workspaceFolder}",
+				"/property:GenerateFullPaths=true",
+				"/consoleloggerparameters:NoSummary;ForceNoAlign"
+			],
+			"problemMatcher": "$msCompile",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		}
 	]
 }
