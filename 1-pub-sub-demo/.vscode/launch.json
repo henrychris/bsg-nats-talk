@@ -52,6 +52,7 @@
 				"Launch Publisher",
 				"Launch Subscriber"
 			],
+			"preLaunchTask": "build-all",
 			"stopAll": false
 		}
 	]
