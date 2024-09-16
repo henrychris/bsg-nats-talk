@@ -14,7 +14,7 @@
 			"args": [],
 			"cwd": "${workspaceFolder}/NatsPubSubDemo.Publisher",
 			// For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-			"console": "internalConsole",
+			"console": "externalTerminal",
 			"stopAtEntry": false,
 			"env": {
 				"DOTNET_ENVIRONMENT": "Development"
@@ -33,7 +33,7 @@
 			"args": [],
 			"cwd": "${workspaceFolder}/NatsPubSubDemo.Subscriber",
 			// For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-			"console": "internalConsole",
+			"console": "externalTerminal",
 			"stopAtEntry": false,
 			"env": {
 				"DOTNET_ENVIRONMENT": "Development"
