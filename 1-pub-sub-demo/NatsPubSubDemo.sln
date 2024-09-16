@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NatsPubSubDemo.Publisher", "NatsPubSubDemo.Publisher\NatsPubSubDemo.Publisher.csproj", "{4BC3B02C-EBFF-480A-9BF9-07FB6F871B07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NatsPubSubDemo.Subscriber", "NatsPubSubDemo.Subscriber\NatsPubSubDemo.Subscriber.csproj", "{5A152D98-8986-482D-8FFD-942ED6F6FEFB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4BC3B02C-EBFF-480A-9BF9-07FB6F871B07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BC3B02C-EBFF-480A-9BF9-07FB6F871B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BC3B02C-EBFF-480A-9BF9-07FB6F871B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BC3B02C-EBFF-480A-9BF9-07FB6F871B07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A152D98-8986-482D-8FFD-942ED6F6FEFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A152D98-8986-482D-8FFD-942ED6F6FEFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A152D98-8986-482D-8FFD-942ED6F6FEFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A152D98-8986-482D-8FFD-942ED6F6FEFB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

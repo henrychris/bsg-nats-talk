@@ -1,0 +1,58 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			// Use IntelliSense to find out which attributes exist for C# debugging
+			// Use hover for the description of the existing attributes
+			// For further information visit https://github.com/dotnet/vscode-csharp/blob/main/debugger-launchjson.md
+			"name": "Launch Publisher",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build-publisher",
+			// If you have changed target frameworks, make sure to update the program path.
+			"program": "${workspaceFolder}/NatsPubSubDemo.Publisher/bin/Debug/net8.0/NatsPubSubDemo.Publisher.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}/NatsPubSubDemo.Publisher",
+			// For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+			"console": "internalConsole",
+			"stopAtEntry": false,
+			"env": {
+				"DOTNET_ENVIRONMENT": "Development"
+			}
+		},
+		{
+			// Use IntelliSense to find out which attributes exist for C# debugging
+			// Use hover for the description of the existing attributes
+			// For further information visit https://github.com/dotnet/vscode-csharp/blob/main/debugger-launchjson.md
+			"name": "Launch Subscriber",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build-subscriber",
+			// If you have changed target frameworks, make sure to update the program path.
+			"program": "${workspaceFolder}/NatsPubSubDemo.Subscriber/bin/Debug/net8.0/NatsPubSubDemo.Subscriber.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}/NatsPubSubDemo.Subscriber",
+			// For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+			"console": "internalConsole",
+			"stopAtEntry": false,
+			"env": {
+				"DOTNET_ENVIRONMENT": "Development"
+			}
+		},
+		{
+			"name": ".NET Core Attach",
+			"type": "coreclr",
+			"request": "attach"
+		}
+	],
+	"compounds": [
+		{
+			"name": "Pub/Sub",
+			"configurations": [
+				"Launch Publisher",
+				"Launch Subscriber"
+			],
+			"stopAll": false
+		}
+	]
+}
