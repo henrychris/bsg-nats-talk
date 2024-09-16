@@ -1,0 +1,49 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Launch Publisher",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build-pub",
+			"program": "${workspaceFolder}/NatsIdempotentDemo.Publisher/bin/Debug/net8.0/NatsIdempotentDemo.Publisher.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}/NatsIdempotentDemo.Publisher",
+			"console": "externalTerminal",
+			"stopAtEntry": false,
+			"env": {
+				"DOTNET_ENVIRONMENT": "Development"
+			}
+		},
+		{
+			"name": "Launch Consumer",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build-js",
+			"program": "${workspaceFolder}/NatsIdempotentDemo.Consumer/bin/Debug/net8.0/NatsIdempotentDemo.Consumer.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}/NatsIdempotentDemo.Consumer",
+			"console": "externalTerminal",
+			"stopAtEntry": false,
+			"env": {
+				"DOTNET_ENVIRONMENT": "Development"
+			}
+		},
+		{
+			"name": ".NET Core Attach",
+			"type": "coreclr",
+			"request": "attach"
+		}
+	],
+	"compounds": [
+		{
+			"name": "All",
+			"configurations": [
+				"Launch Publisher",
+				"Launch Consumer"
+			],
+			"preLaunchTask": "build-all",
+			"stopAll": false
+		}
+	]
+}
