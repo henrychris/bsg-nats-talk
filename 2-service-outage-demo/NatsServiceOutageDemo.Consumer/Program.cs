@@ -1,7 +1,7 @@
 using NatsServiceOutageDemo.Consumer;
 
 var builder = Host.CreateApplicationBuilder(args);
-builder.Services.AddHostedService<Worker>();
+builder.Services.AddHostedService<Consumer>();
 
 var host = builder.Build();
 host.Run();
