@@ -11,3 +11,6 @@ dotnet add NatsIdempotentDemo.Publisher/NatsIdempotentDemo.Publisher.csproj pack
 dotnet new worker -n NatsIdempotentDemo.Consumer
 dotnet sln add NatsIdempotentDemo.Consumer/NatsIdempotentDemo.Consumer.csproj
 dotnet add NatsIdempotentDemo.Consumer/NatsIdempotentDemo.Consumer.csproj package Nats.Net
+
+dotnet add NatsIdempotentDemo.Consumer/NatsIdempotentDemo.Consumer.csproj reference NatsIdempotentDemo.Common/NatsIdempotentDemo.Common.csproj
+dotnet add NatsIdempotentDemo.Publisher/NatsIdempotentDemo.Publisher.csproj reference NatsIdempotentDemo.Common/NatsIdempotentDemo.Common.csproj
