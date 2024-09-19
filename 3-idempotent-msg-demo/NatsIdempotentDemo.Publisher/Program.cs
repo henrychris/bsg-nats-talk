@@ -3,8 +3,11 @@ using NATS.Client.JetStream;
 using NATS.Client.JetStream.Models;
 using NatsIdempotentDemo.Common;
 
+const int DUPLICATE_WINDOW_IN_SECONDS = 3;
+
 var opts = new NatsOpts { Url = NatsConfig.DefaultUrl };
 await using var connection = new NatsConnection(opts);
+
 var messageCount = 0;
 
 var jsContext = new NatsJSContext(connection);
@@ -14,7 +17,7 @@ var config = new StreamConfig(
 )
 {
     Storage = StreamConfigStorage.Memory, // messages will be lost once the nats server is reset.
-    DuplicateWindow = TimeSpan.FromSeconds(3),
+    DuplicateWindow = TimeSpan.FromSeconds(DUPLICATE_WINDOW_IN_SECONDS),
 };
 
 await CreateStream(jsContext, config);
@@ -47,7 +50,7 @@ while (true)
     );
     Console.WriteLine("published message");
 
-    await Task.Delay(4000);
+    await Task.Delay(TimeSpan.FromSeconds(DUPLICATE_WINDOW_IN_SECONDS + 1)); // change this to less than the duplicate window to catch duplicates
 
     await jsContext.PublishAsync(
         NatsConfig.SubjectName,
