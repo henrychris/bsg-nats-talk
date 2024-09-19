@@ -18,7 +18,27 @@ public class Consumer(ILogger<Consumer> logger) : BackgroundService
             cancellationToken: stoppingToken
         );
         var consumer = await stream.CreateOrUpdateConsumerAsync(
-            new ConsumerConfig(),
+            new ConsumerConfig()
+            {
+                DeliverPolicy =
+                    ConsumerConfigDeliverPolicy.New // change this to change how messages are retrieved
+                ,
+                Backoff =
+                [
+                    (long)TimeSpan.FromSeconds(5).TotalNanoseconds, // 5 seconds
+                    (long)TimeSpan.FromSeconds(10).TotalNanoseconds, // 10 seconds
+                    (long)TimeSpan.FromSeconds(30).TotalNanoseconds, // 30 seconds
+                    (long)TimeSpan.FromMinutes(2).TotalNanoseconds, // 2 minutes
+                    (long)TimeSpan.FromMinutes(5).TotalNanoseconds, // 5 minutes
+                    (long)
+                        TimeSpan
+                            .FromMinutes(10)
+                            .TotalNanoseconds // 10 minutes
+                    ,
+                ],
+                AckWait = TimeSpan.FromSeconds(10),
+                MaxDeliver = 7,
+            },
             stoppingToken
         );
 
@@ -37,6 +57,7 @@ public class Consumer(ILogger<Consumer> logger) : BackgroundService
                 if (msg.Data is null)
                 {
                     logger.LogError("Message is null.");
+                    await msg.AckTerminateAsync(cancellationToken: stoppingToken);
                     continue;
                 }
 
@@ -45,6 +66,8 @@ public class Consumer(ILogger<Consumer> logger) : BackgroundService
                     msg.Data.Id,
                     msg.Data.Content
                 );
+
+                await msg.NakAsync(delay: TimeSpan.FromSeconds(5), cancellationToken: stoppingToken);
             }
         }
     }
