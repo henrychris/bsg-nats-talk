@@ -67,7 +67,8 @@ public class Consumer(ILogger<Consumer> logger) : BackgroundService
                     msg.Data.Content
                 );
 
-                await msg.NakAsync(delay: TimeSpan.FromSeconds(5), cancellationToken: stoppingToken);
+                await msg.AckAsync(cancellationToken: stoppingToken);
+                // await msg.NakAsync(delay: TimeSpan.FromSeconds(5), cancellationToken: stoppingToken);
             }
         }
     }
