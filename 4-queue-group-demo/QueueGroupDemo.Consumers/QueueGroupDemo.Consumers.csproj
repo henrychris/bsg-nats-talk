@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-    <PackageReference Include="Nats.Net" Version="2.4.0" />
+    <PackageReference Include="Nats.Net" Version="2.3.3" />
   </ItemGroup>
 
   <ItemGroup>
