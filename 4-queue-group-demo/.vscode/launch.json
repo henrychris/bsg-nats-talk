@@ -1,0 +1,49 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Launch Publisher",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build-pub",
+			"program": "${workspaceFolder}/QueueGroupDemo.Publisher/bin/Debug/net8.0/QueueGroupDemo.Publisher.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}/QueueGroupDemo.Publisher",
+			"console": "externalTerminal",
+			"stopAtEntry": false,
+			"env": {
+				"DOTNET_ENVIRONMENT": "Development"
+			}
+		},
+		{
+			"name": "Launch Consumers",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build-consumers",
+			"program": "${workspaceFolder}/QueueGroupDemo.Consumers/bin/Debug/net8.0/QueueGroupDemo.Consumers.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}/QueueGroupDemo.Consumers",
+			"console": "externalTerminal",
+			"stopAtEntry": false,
+			"env": {
+				"DOTNET_ENVIRONMENT": "Development"
+			}
+		},
+		{
+			"name": ".NET Core Attach",
+			"type": "coreclr",
+			"request": "attach"
+		}
+	],
+	"compounds": [
+		{
+			"name": "All",
+			"configurations": [
+				"Launch Publisher",
+				"Launch Consumers"
+			],
+			"preLaunchTask": "build-all",
+			"stopAll": false
+		}
+	]
+}
