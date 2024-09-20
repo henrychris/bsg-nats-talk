@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalNatsDemo.Inventory", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalNatsDemo.Shipping", "FinalNatsDemo.Shipping\FinalNatsDemo.Shipping.csproj", "{6333D7D6-171F-4E96-955C-A4B2C3243216}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalNatsDemo.Analytics", "FinalNatsDemo.Analytics\FinalNatsDemo.Analytics.csproj", "{B8214A1A-610C-4D6D-84B7-5C7CD343774E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,9 +36,5 @@ Global
 		{6333D7D6-171F-4E96-955C-A4B2C3243216}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6333D7D6-171F-4E96-955C-A4B2C3243216}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6333D7D6-171F-4E96-955C-A4B2C3243216}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B8214A1A-610C-4D6D-84B7-5C7CD343774E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B8214A1A-610C-4D6D-84B7-5C7CD343774E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B8214A1A-610C-4D6D-84B7-5C7CD343774E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B8214A1A-610C-4D6D-84B7-5C7CD343774E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
