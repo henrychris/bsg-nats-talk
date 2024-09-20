@@ -1,3 +1,5 @@
+using FinalNatsDemo.Common.Settings;
+
 namespace FinalNatsDemo.Orders.Configuration
 {
     internal static class SettingsConfiguration
@@ -14,11 +16,7 @@ namespace FinalNatsDemo.Orders.Configuration
         private static void ConfigureSettings<T>(IServiceCollection services)
             where T : class, new()
         {
-            services
-                .AddOptions<T>()
-                .BindConfiguration(typeof(T).Name)
-                .ValidateDataAnnotations()
-                .ValidateOnStart();
+            services.AddOptions<T>().BindConfiguration(typeof(T).Name).ValidateDataAnnotations().ValidateOnStart();
         }
 
         /// <summary>
@@ -27,7 +25,7 @@ namespace FinalNatsDemo.Orders.Configuration
         /// <param name="services">The IServiceCollection to add the settings to.</param>
         public static void SetupConfigFiles(this IServiceCollection services)
         {
-            // ConfigureSettings<T>(services);
+            ConfigureSettings<DatabaseSettings>(services);
             Console.WriteLine("Secrets have been bound to classes.");
         }
     }

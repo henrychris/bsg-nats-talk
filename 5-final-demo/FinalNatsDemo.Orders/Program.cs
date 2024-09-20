@@ -1,4 +1,5 @@
 ﻿using FinalNatsDemo.Orders.Configuration;
+using FinalNatsDemo.Orders.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 var environment = builder.Environment.EnvironmentName;
@@ -12,6 +13,7 @@ builder
 builder.Services.SetupConfigFiles();
 
 // setup database
+builder.Services.SetupDatabase<OrderDataContext>();
 builder.Services.SetupControllers();
 builder.Services.AddSwagger();
 builder.Services.SetupFilters();
@@ -26,6 +28,7 @@ app.RegisterSwagger();
 app.RegisterMiddleware();
 
 // seed db here if needed
+await app.ApplyMigrationsAsync<OrderDataContext>();
 app.Run();
 
 // this is here for integration tests

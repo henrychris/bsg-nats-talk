@@ -1,21 +1,18 @@
 ﻿using FinalNatsDemo.Shipping.Configuration;
+using FinalNatsDemo.Shipping.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 var environment = builder.Environment.EnvironmentName;
 
 builder
-    .Configuration.AddJsonFile(
-        $"appsettings.{environment}.json",
-        optional: true,
-        reloadOnChange: true
-    )
+    .Configuration.AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
     .AddUserSecrets<Program>()
     .AddEnvironmentVariables()
     .Build();
 
 builder.Services.SetupConfigFiles();
 
-// setup database
+builder.Services.SetupDatabase<ShippingDataContext>();
 builder.Services.SetupControllers();
 builder.Services.AddSwagger();
 builder.Services.SetupFilters();
@@ -29,7 +26,7 @@ var app = builder.Build();
 app.RegisterSwagger();
 app.RegisterMiddleware();
 
-// seed db here if needed
+await app.ApplyMigrationsAsync<ShippingDataContext>();
 app.Run();
 
 // this is here for integration tests
