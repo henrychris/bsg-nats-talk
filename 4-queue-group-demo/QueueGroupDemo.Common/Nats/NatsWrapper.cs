@@ -33,6 +33,41 @@ namespace QueueGroupDemo.Common.Nats
             _connection.ConnectAsync();
         }
 
+        #region PUBLISH
+
+        public async Task PublishToJetStream<TMessage>(TMessage message, string subject)
+        {
+            var jsPubOpts = new NatsJSPubOpts
+            {
+                RetryAttempts = 5,
+                RetryWaitBetweenAttempts = TimeSpan.FromSeconds(5),
+            };
+
+            var ack = await _natsJsContext.PublishAsync(
+                subject,
+                message,
+                new NatsSerializer<TMessage>(),
+                jsPubOpts
+            );
+            if (ack.Duplicate)
+            {
+                _logger.LogError(
+                    "Message not sent as it is a duplicate. Subject: {subject}.",
+                    subject
+                );
+                return;
+            }
+
+            ack.EnsureSuccess();
+            _logger.LogInformation(
+                "Published message to JetStream for subject: {subject}.",
+                subject
+            );
+        }
+
+        #endregion
+
+        #region CONSUME
         public async Task ConsumeFromJetStreamAsync<TMessage>(
             Func<TMessage, Task> onMessage,
             string streamName,
@@ -54,7 +89,7 @@ namespace QueueGroupDemo.Common.Nats
             // var consumerName = $"{streamName}_processor";
             var consumerConfig = new ConsumerConfig()
             {
-                ReplayPolicy = ConsumerConfigReplayPolicy.Instant,
+                ReplayPolicy = ConsumerConfigReplayPolicy.Instant
             };
 
             _logger.LogInformation("Creating consumer for stream: {streamName}.", streamName);
@@ -131,5 +166,7 @@ namespace QueueGroupDemo.Common.Nats
                 await msg.NakAsync(cancellationToken: cancellationToken);
             }
         }
+
+        #endregion
     }
 }
