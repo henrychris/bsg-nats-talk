@@ -22,7 +22,8 @@
 			},
 			"env": {
 				"ASPNETCORE_ENVIRONMENT": "Development",
-			}
+			},
+			"console": "externalTerminal"
 		},
 		{
 			// Use IntelliSense to find out which attributes exist for C# debugging
@@ -45,7 +46,8 @@
 			},
 			"env": {
 				"ASPNETCORE_ENVIRONMENT": "Development",
-			}
+			},
+			"console": "externalTerminal"
 		},
 		{
 			// Use IntelliSense to find out which attributes exist for C# debugging
@@ -68,7 +70,8 @@
 			},
 			"env": {
 				"ASPNETCORE_ENVIRONMENT": "Development",
-			}
+			},
+			"console": "externalTerminal"
 		},
 		{
 			"name": ".NET Core Attach",
