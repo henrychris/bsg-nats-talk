@@ -1,3 +1,5 @@
+using FinalNatsDemo.Common.Events;
+using FinalNatsDemo.Common.Nats;
 using FinalNatsDemo.Inventory.Data;
 using FinalNatsDemo.Inventory.Data.Entities;
 using HenryUtils.Results;
@@ -8,7 +10,8 @@ namespace FinalNatsDemo.Inventory.Features.Products.SetupProducts
 {
     public class SetupProductsRequest : IRequest<Result<MyUnit>> { }
 
-    public class Handler(InventoryDataContext context, ILogger<Handler> logger) : IRequestHandler<SetupProductsRequest, Result<MyUnit>>
+    public class Handler(InventoryDataContext context, INatsWrapper natsWrapper, ILogger<Handler> logger)
+        : IRequestHandler<SetupProductsRequest, Result<MyUnit>>
     {
         private readonly List<Product> _products =
         [
@@ -34,23 +37,34 @@ namespace FinalNatsDemo.Inventory.Features.Products.SetupProducts
 
         public async Task<Result<MyUnit>> Handle(SetupProductsRequest request, CancellationToken cancellationToken)
         {
+            List<Product> createdProducts = [];
+
             foreach (var product in _products)
             {
-                var doesProductExist = await context.Products.AnyAsync(x => x.Id == product.Id);
+                var doesProductExist = await context.Products.AnyAsync(x => x.Id == product.Id, cancellationToken: cancellationToken);
                 if (doesProductExist)
                 {
                     logger.LogWarning("Product already exists. Name: {productName}. Skipping...", product.Name);
                     continue;
                 }
 
-                await context.AddAsync(product);
+                await context.AddAsync(product, cancellationToken);
+                createdProducts.Add(product);
             }
 
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
             logger.LogInformation("Saved products to database");
-            // todo: publish product created event
 
+            await PublishProductCreatedEvent(createdProducts);
             return Result<MyUnit>.Success(MyUnit.Value);
+        }
+
+        private async Task PublishProductCreatedEvent(List<Product> createdProducts)
+        {
+            foreach (var product in createdProducts)
+            {
+                await natsWrapper.PublishToJetStreamAsync(ProductMapper.ToProductCreatedEvent(product), ProductCreatedEvent.TOPIC, product.Id);
+            }
         }
     }
 }

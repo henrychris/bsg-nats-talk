@@ -1,3 +1,4 @@
+using FinalNatsDemo.Common.Events;
 using FinalNatsDemo.Inventory.Data.Entities;
 using FinalNatsDemo.Inventory.Features.Products.GetAllProducts;
 
@@ -14,6 +15,16 @@ namespace FinalNatsDemo.Inventory.Features.Products
                 StockLevel = product.StockLevel,
                 DateCreated = product.DateCreated,
                 DateUpdated = product.DateUpdated,
+            };
+        }
+
+        internal static ProductCreatedEvent ToProductCreatedEvent(Product product)
+        {
+            return new ProductCreatedEvent
+            {
+                Id = product.Id,
+                Name = product.Name,
+                StockLevel = product.StockLevel,
             };
         }
     }
