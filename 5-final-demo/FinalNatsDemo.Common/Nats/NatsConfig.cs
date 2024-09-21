@@ -1,4 +1,4 @@
-namespace FinalNatsDemo.Common
+namespace FinalNatsDemo.Common.Nats
 {
     public static class NatsConfig
     {
