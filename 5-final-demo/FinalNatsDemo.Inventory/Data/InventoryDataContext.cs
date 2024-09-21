@@ -1,6 +1,5 @@
 using FinalNatsDemo.Common.Data.Entities.Base;
 using FinalNatsDemo.Inventory.Data.Entities;
-using FinalNatsDemo.Inventory.Data.Entities.External;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinalNatsDemo.Inventory.Data
@@ -39,7 +38,5 @@ namespace FinalNatsDemo.Inventory.Data
         }
 
         public DbSet<Product> Products { get; set; } = null!;
-        public DbSet<Order> Orders { get; set; } = null!;
-        public DbSet<OrderItem> OrderItems { get; set; } = null!;
     }
 }
