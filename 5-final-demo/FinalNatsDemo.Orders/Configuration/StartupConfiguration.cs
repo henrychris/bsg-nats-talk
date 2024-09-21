@@ -15,9 +15,7 @@ namespace FinalNatsDemo.Orders.Configuration
 
             // validation is performed using FluentValidation and a specific response body is used.
             // the custom filter is CustomValidationFilter.cs
-            services.Configure<ApiBehaviorOptions>(options =>
-                options.SuppressModelStateInvalidFilter = true
-            );
+            services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
         }
 
         public static void SetupFilters(this IServiceCollection services)
@@ -34,14 +32,11 @@ namespace FinalNatsDemo.Orders.Configuration
             services.Configure<JsonOptions>(jsonOptions =>
             {
                 jsonOptions.JsonSerializerOptions.WriteIndented = false;
-                jsonOptions.JsonSerializerOptions.DefaultIgnoreCondition =
-                    JsonIgnoreCondition.WhenWritingNull;
+                jsonOptions.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
                 jsonOptions.JsonSerializerOptions.ReadCommentHandling = JsonCommentHandling.Skip;
                 jsonOptions.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-                jsonOptions.JsonSerializerOptions.Converters.Add(
-                    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-                );
+                jsonOptions.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
             });
         }
 

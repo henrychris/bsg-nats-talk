@@ -9,7 +9,7 @@ namespace FinalNatsDemo.Common.Nats
 
         public const string OrderProcessedSubject = "order.processed";
         public const string OrderProcessedStream = "order.processed.stream";
-        
+
         public const string OrderShippedSubject = "order.shipped";
         public const string OrderShippedStream = "order.shipped.stream";
     }

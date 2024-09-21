@@ -19,17 +19,15 @@ namespace FinalNatsDemo.Orders.Data.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     StockLevel = table.Column<int>(type: "integer", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DateUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    DateUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Product", x => x.Id);
-                });
+                }
+            );
 
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_ProductId",
-                table: "OrderItems",
-                column: "ProductId");
+            migrationBuilder.CreateIndex(name: "IX_OrderItems_ProductId", table: "OrderItems", column: "ProductId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_OrderItems_Product_ProductId",
@@ -37,22 +35,18 @@ namespace FinalNatsDemo.Orders.Data.Migrations
                 column: "ProductId",
                 principalTable: "Product",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Cascade
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_OrderItems_Product_ProductId",
-                table: "OrderItems");
+            migrationBuilder.DropForeignKey(name: "FK_OrderItems_Product_ProductId", table: "OrderItems");
 
-            migrationBuilder.DropTable(
-                name: "Product");
+            migrationBuilder.DropTable(name: "Product");
 
-            migrationBuilder.DropIndex(
-                name: "IX_OrderItems_ProductId",
-                table: "OrderItems");
+            migrationBuilder.DropIndex(name: "IX_OrderItems_ProductId", table: "OrderItems");
         }
     }
 }
