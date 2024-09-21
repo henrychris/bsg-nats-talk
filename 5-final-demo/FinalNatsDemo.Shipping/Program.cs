@@ -1,7 +1,10 @@
 ﻿using System.Reflection;
+using FinalNatsDemo.Common.Nats;
 using FinalNatsDemo.Shipping.Configuration;
 using FinalNatsDemo.Shipping.Data;
+using FinalNatsDemo.Shipping.EventHandlers;
 using FluentValidation;
+using NATS.Client.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 var environment = builder.Environment.EnvironmentName;
@@ -25,6 +28,17 @@ builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 // setup authentication
 builder.Services.RegisterServices();
 builder.Services.SetupJsonOptions();
+
+builder.Services.AddSingleton(sp =>
+{
+    var opts = new NatsOpts { Url = NatsConfig.DefaultUrl };
+    return new NatsConnection(opts);
+});
+builder.Services.AddSingleton<INatsWrapper, NatsWrapper>();
+
+builder.Services.AddHostedService<OrderCreatedHandler>();
+builder.Services.AddHostedService<ProductCreatedHandler>();
+builder.Services.AddHostedService<ProductUpdatedHandler>();
 
 var app = builder.Build();
 app.RegisterSwagger();
