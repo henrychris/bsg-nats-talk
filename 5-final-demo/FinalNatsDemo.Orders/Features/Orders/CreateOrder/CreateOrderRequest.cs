@@ -52,12 +52,7 @@ namespace FinalNatsDemo.Orders.Features.Orders.CreateOrder
             logger.LogInformation("Order created successfully. OrderId: {OrderId}", order.Id);
             return Result<CreateOrderResponse>.Success(new CreateOrderResponse { OrderId = order.Id });
 
-            // todo: in the morning
-            // handle order created event in product & shipping services
-            // publish product updated event in product service
-            // handle product updated event in order service
-            // add endpoints to update shipping status & publish relevant events
-
+            // todo: add endpoints to update shipping status & publish relevant events
             // todo ! complete the FUCKING SLIDES
             // test & practice
         }

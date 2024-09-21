@@ -1,6 +1,8 @@
 using FinalNatsDemo.Common.Events;
 using FinalNatsDemo.Common.Nats;
 using FinalNatsDemo.Shipping.Data;
+using FinalNatsDemo.Shipping.Data.Entities;
+using FinalNatsDemo.Shipping.Data.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinalNatsDemo.Shipping.EventHandlers
@@ -52,6 +54,15 @@ namespace FinalNatsDemo.Shipping.EventHandlers
                     logger.LogWarning("Stock level for ProductId: {ProductId} is negative. StockLevel: {StockLevel}", product.Id, product.StockLevel);
                 }
             }
+
+            var shippingRecord = new ShippingRecord
+            {
+                OrderId = orderCreatedEvent.OrderId,
+                ScheduledDate = DateTime.UtcNow.AddDays(7),
+                Status = ShippingStatus.Scheduled,
+            };
+
+            await context.ShippingRecords.AddAsync(shippingRecord, cancellationToken);
 
             // Save changes to the product stock levels
             await context.SaveChangesAsync(cancellationToken);
