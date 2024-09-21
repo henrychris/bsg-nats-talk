@@ -13,9 +13,9 @@ namespace FinalNatsDemo.Inventory.Controllers
     {
         [HttpPost("setup")]
         [ProducesResponseType(typeof(ApiResponse<MyUnit>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> SetupInventoryProducts(SetupProductsRequest request)
+        public async Task<IActionResult> SetupInventoryProducts()
         {
-            var result = await mediator.Send(request);
+            var result = await mediator.Send(new SetupProductsRequest());
             return result.Match(_ => Ok(result.ToSuccessfulApiResponse()), ReturnErrorResponse);
         }
 
