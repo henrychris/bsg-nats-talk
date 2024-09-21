@@ -144,8 +144,8 @@ namespace FinalNatsDemo.Common.Nats
         {
             var consumerConfig = new ConsumerConfig()
             {
-                ReplayPolicy = ConsumerConfigReplayPolicy.Instant,
-                DeliverPolicy = ConsumerConfigDeliverPolicy.All,
+                ReplayPolicy = ConsumerConfigReplayPolicy.Original,
+                DeliverPolicy = ConsumerConfigDeliverPolicy.New,
             };
 
             return await _natsJsContext.CreateOrUpdateConsumerAsync(
