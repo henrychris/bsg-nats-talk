@@ -8,6 +8,8 @@ namespace FinalNatsDemo.Common.Nats
 {
     public interface INatsWrapper
     {
+        Task CreateStreamAsync(string streamName, string subject);
+
         Task PublishAsync<TMessage>(
             TMessage message,
             string subject,
@@ -29,6 +31,7 @@ namespace FinalNatsDemo.Common.Nats
 
     public class NatsWrapper : INatsWrapper
     {
+        private const int DUPLICATE_WINDOW_IN_SECONDS = 3;
         private readonly ILogger<NatsWrapper> _logger;
         private readonly NatsConnection _connection;
         private readonly NatsJSContext _natsJsContext;
@@ -142,7 +145,7 @@ namespace FinalNatsDemo.Common.Nats
             var consumerConfig = new ConsumerConfig()
             {
                 ReplayPolicy = ConsumerConfigReplayPolicy.Instant,
-                DeliverPolicy = ConsumerConfigDeliverPolicy.New,
+                DeliverPolicy = ConsumerConfigDeliverPolicy.All
             };
 
             return await _natsJsContext.CreateOrUpdateConsumerAsync(
@@ -153,5 +156,28 @@ namespace FinalNatsDemo.Common.Nats
         }
 
         #endregion
+
+        public async Task CreateStreamAsync(string streamName, string subject)
+        {
+            // create stream
+            var config = new StreamConfig(name: streamName, subjects: new[] { subject })
+            {
+                Storage = StreamConfigStorage.Memory, // messages will be lost once the nats server is reset.
+                DuplicateWindow = TimeSpan.FromSeconds(DUPLICATE_WINDOW_IN_SECONDS),
+            };
+            await TryCreateOrUpdateStreamAsync(config);
+        }
+
+        private async Task TryCreateOrUpdateStreamAsync(StreamConfig config)
+        {
+            try
+            {
+                await _natsJsContext.CreateStreamAsync(config);
+            }
+            catch (Exception)
+            {
+                await _natsJsContext.UpdateStreamAsync(config);
+            }
+        }
     }
 }
