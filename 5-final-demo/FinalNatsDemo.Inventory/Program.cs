@@ -1,9 +1,9 @@
 ﻿using System.Reflection;
-
+using FinalNatsDemo.Common.Nats;
 using FinalNatsDemo.Inventory.Configuration;
 using FinalNatsDemo.Inventory.Data;
-
 using FluentValidation;
+using NATS.Client.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 var environment = builder.Environment.EnvironmentName;
@@ -23,11 +23,17 @@ builder.Services.SetupFilters();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-
 // setup identity
 // setup authentication
 builder.Services.RegisterServices();
 builder.Services.SetupJsonOptions();
+
+builder.Services.AddSingleton(sp =>
+{
+    var opts = new NatsOpts { Url = NatsConfig.DefaultUrl };
+    return new NatsConnection(opts);
+});
+builder.Services.AddSingleton<INatsWrapper, NatsWrapper>();
 
 var app = builder.Build();
 app.RegisterSwagger();
