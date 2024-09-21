@@ -50,7 +50,3 @@ app.Run();
 
 // this is here for integration tests
 public partial class Program;
-
-// todo: publish order.created (handle duplicates)
-// todo: handle order.created - reduce inventory of item & create shipping record for order
-// todo: complete slides :)

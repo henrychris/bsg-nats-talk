@@ -51,10 +51,6 @@ namespace FinalNatsDemo.Orders.Features.Orders.CreateOrder
 
             logger.LogInformation("Order created successfully. OrderId: {OrderId}", order.Id);
             return Result<CreateOrderResponse>.Success(new CreateOrderResponse { OrderId = order.Id });
-
-            // todo: add endpoints to update shipping status & publish relevant events
-            // todo ! complete the FUCKING SLIDES
-            // test & practice
         }
 
         private async Task<List<Product>> GetProductsForOrder(IEnumerable<OrderItemDto> orderItems, CancellationToken cancellationToken)
