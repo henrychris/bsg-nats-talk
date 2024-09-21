@@ -106,12 +106,32 @@ namespace FinalNatsDemo.Common.Nats
             CancellationToken cancellationToken = default
         )
         {
-            _logger.LogInformation("Listening to stream: {streamName}.", streamName);
-
             var consumer = await CreateConsumerAsync(streamName, cancellationToken);
             _logger.LogInformation("Created consumer for stream: {streamName}.", streamName);
 
-            await ConsumeMessagesAsync(onMessage, consumer, cancellationToken);
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                _logger.LogInformation("Fetching messages from stream: {stream}.", streamName);
+                await foreach (
+                    var msg in consumer.ConsumeAsync<TMessage>(
+                        serializer: new NatsSerializer<TMessage>(),
+                        cancellationToken: cancellationToken
+                    )
+                )
+                {
+                    _logger.LogInformation("Received message on topic {topic}.", msg.Subject);
+
+                    if (msg.Data is null)
+                    {
+                        _logger.LogError("Message is null.");
+                        await msg.AckTerminateAsync(cancellationToken: cancellationToken);
+                        continue;
+                    }
+
+                    await onMessage(msg.Data);
+                    await msg.AckAsync(cancellationToken: cancellationToken);
+                }
+            }
         }
 
         private async Task<INatsJSConsumer> CreateConsumerAsync(
@@ -122,6 +142,7 @@ namespace FinalNatsDemo.Common.Nats
             var consumerConfig = new ConsumerConfig()
             {
                 ReplayPolicy = ConsumerConfigReplayPolicy.Instant,
+                DeliverPolicy = ConsumerConfigDeliverPolicy.New,
             };
 
             return await _natsJsContext.CreateOrUpdateConsumerAsync(
@@ -129,72 +150,6 @@ namespace FinalNatsDemo.Common.Nats
                 consumerConfig,
                 cancellationToken
             );
-        }
-
-        private async Task ConsumeMessagesAsync<TMessage>(
-            Func<TMessage, Task> onMessage,
-            INatsJSConsumer consumer,
-            CancellationToken cancellationToken
-        )
-        {
-            var consumeOpts = new NatsJSConsumeOpts { MaxMsgs = 1 };
-
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                try
-                {
-                    await foreach (
-                        var msg in consumer.ConsumeAsync(
-                            serializer: new NatsSerializer<TMessage>(),
-                            consumeOpts,
-                            cancellationToken: cancellationToken
-                        )
-                    )
-                    {
-                        await HandleMessage(msg, onMessage, cancellationToken);
-                    }
-                }
-                catch (OperationCanceledException)
-                {
-                    _logger.LogWarning(
-                        "Consumption was cancelled for consumer: {consumer}.",
-                        consumer
-                    );
-                }
-                catch (Exception e)
-                {
-                    _logger.LogCritical(
-                        "Error processing messages: {exception}. Retrying in 1 second.",
-                        e
-                    );
-                    await Task.Delay(1000, cancellationToken);
-                }
-            }
-        }
-
-        private async Task HandleMessage<TMessage>(
-            NatsJSMsg<TMessage> msg,
-            Func<TMessage, Task> onMessage,
-            CancellationToken cancellationToken
-        )
-        {
-            try
-            {
-                if (msg.Data is null)
-                {
-                    await msg.NakAsync(cancellationToken: cancellationToken);
-                    return;
-                }
-
-                await onMessage(msg.Data);
-                await msg.AckAsync(cancellationToken: cancellationToken);
-                _logger.LogInformation("Message successfully processed and acknowledged.");
-            }
-            catch (Exception e)
-            {
-                _logger.LogError("Error processing message: {exception}. NACKing the message.", e);
-                await msg.NakAsync(cancellationToken: cancellationToken);
-            }
         }
 
         #endregion
