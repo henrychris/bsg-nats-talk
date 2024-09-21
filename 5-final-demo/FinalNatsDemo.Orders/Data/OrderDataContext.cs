@@ -1,5 +1,6 @@
 using FinalNatsDemo.Common.Data.Entities.Base;
 using FinalNatsDemo.Orders.Data.Entities;
+using FinalNatsDemo.Orders.Data.Entities.External;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinalNatsDemo.Orders.Data
@@ -37,6 +38,7 @@ namespace FinalNatsDemo.Orders.Data
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, token);
         }
 
+        public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<OrderItem> OrderItems { get; set; } = null!;
     }
