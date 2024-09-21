@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "FinalNatsDemo.Inventory": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:4000;https://localhost:4001",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
