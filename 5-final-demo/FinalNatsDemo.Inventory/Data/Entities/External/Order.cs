@@ -6,6 +6,6 @@ namespace FinalNatsDemo.Inventory.Data.Entities.External
     {
         public new required string Id { get; set; }
         public required string OrderStatus { get; set; }
-        public required List<OrderItem> Items { get; set; }
+        public List<OrderItem> Items { get; set; } = [];
     }
 }
