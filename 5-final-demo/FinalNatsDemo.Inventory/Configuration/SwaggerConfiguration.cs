@@ -20,9 +20,8 @@ namespace FinalNatsDemo.Inventory.Configuration
                     new OpenApiInfo
                     {
                         Version = "v1",
-                        Title = "Auction API",
-                        Description =
-                            "An API used to manage auctions. Allows users to chat, bid, and pay."
+                        Title = "Inventory API",
+                        Description = "An API used to manage inventory. Used in a demo.",
                     }
                 );
 
@@ -30,12 +29,11 @@ namespace FinalNatsDemo.Inventory.Configuration
                     SECURITY_SCHEME,
                     new OpenApiSecurityScheme
                     {
-                        Description =
-                            "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                         Name = "Authorization",
                         In = ParameterLocation.Header,
                         Type = SecuritySchemeType.ApiKey,
-                        Scheme = SECURITY_SCHEME
+                        Scheme = SECURITY_SCHEME,
                     }
                 );
             });
