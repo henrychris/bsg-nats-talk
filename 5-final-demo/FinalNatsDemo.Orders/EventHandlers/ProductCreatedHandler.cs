@@ -17,10 +17,7 @@ namespace FinalNatsDemo.Orders.EventHandlers
             while (!stoppingToken.IsCancellationRequested)
             {
                 await natsWrapper.ConsumeFromJetStreamAsync<ProductCreatedEvent>(
-                    async (message) =>
-                    {
-                        await CreateProductAsync(message, stoppingToken);
-                    },
+                    async (message) => await CreateProductAsync(message, stoppingToken),
                     streamName: ProductCreatedEvent.STREAM,
                     cancellationToken: stoppingToken
                 );
@@ -40,8 +37,8 @@ namespace FinalNatsDemo.Orders.EventHandlers
             }
 
             var product = EventMapper.CreateProduct(productCreatedEvent);
-            await context.Products.AddAsync(product);
-            await context.SaveChangesAsync();
+            await context.Products.AddAsync(product, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
             logger.LogInformation("Created product. Id: {productId}", product.Id);
         }
     }
