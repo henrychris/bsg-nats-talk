@@ -2,6 +2,7 @@
 using FinalNatsDemo.Common.Nats;
 using FinalNatsDemo.Inventory.Configuration;
 using FinalNatsDemo.Inventory.Data;
+using FinalNatsDemo.Inventory.EventHandlers;
 using FluentValidation;
 using NATS.Client.Core;
 
@@ -34,6 +35,8 @@ builder.Services.AddSingleton(sp =>
     return new NatsConnection(opts);
 });
 builder.Services.AddSingleton<INatsWrapper, NatsWrapper>();
+
+builder.Services.AddHostedService<OrderCreatedHandler>();
 
 var app = builder.Build();
 app.RegisterSwagger();

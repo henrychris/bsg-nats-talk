@@ -30,7 +30,7 @@ namespace FinalNatsDemo.Inventory.Features.Products.SetupProducts
             new Product
             {
                 Id = "9abe38a4-733e-42af-8a60-7cc75283a1bd",
-                Name = "Nike Football",
+                Name = "Adidas Football",
                 StockLevel = 2000000,
             },
         ];

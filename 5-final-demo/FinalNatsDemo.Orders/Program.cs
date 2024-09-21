@@ -38,6 +38,7 @@ builder.Services.AddSingleton(sp =>
 builder.Services.AddSingleton<INatsWrapper, NatsWrapper>();
 
 builder.Services.AddHostedService<ProductCreatedHandler>();
+builder.Services.AddHostedService<ProductUpdatedHandler>();
 
 var app = builder.Build();
 app.RegisterSwagger();
