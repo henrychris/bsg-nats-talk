@@ -38,10 +38,6 @@ app.Run();
 // this is here for integration tests
 public partial class Program;
 
-// todo: add launchSettings for all projects
-// todo: add sqlite database with seed for inventory
-// todo: add endpoint to create an order using an Item array. an item contains an id relating to a value in Inventory table
 // todo: publish order.created (handle duplicates)
 // todo: handle order.created - reduce inventory of item & create shipping record for order
-// todo: brainstorm other ideas
 // todo: complete slides :)
