@@ -1,5 +1,7 @@
-﻿using FinalNatsDemo.Orders.Configuration;
+﻿using System.Reflection;
+using FinalNatsDemo.Orders.Configuration;
 using FinalNatsDemo.Orders.Data;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 var environment = builder.Environment.EnvironmentName;
@@ -17,6 +19,8 @@ builder.Services.SetupDatabase<OrderDataContext>();
 builder.Services.SetupControllers();
 builder.Services.AddSwagger();
 builder.Services.SetupFilters();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 // setup identity
 // setup authentication
