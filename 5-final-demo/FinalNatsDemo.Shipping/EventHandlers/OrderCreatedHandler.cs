@@ -2,6 +2,7 @@ using FinalNatsDemo.Common.Events;
 using FinalNatsDemo.Common.Nats;
 using FinalNatsDemo.Shipping.Data;
 using FinalNatsDemo.Shipping.Data.Entities;
+using FinalNatsDemo.Shipping.Data.Entities.External;
 using FinalNatsDemo.Shipping.Data.Enums;
 using Microsoft.EntityFrameworkCore;
 
@@ -62,7 +63,18 @@ namespace FinalNatsDemo.Shipping.EventHandlers
                 Status = ShippingStatus.Scheduled,
             };
 
+            var order = new Order { Id = orderCreatedEvent.OrderId, OrderStatus = orderCreatedEvent.OrderStatus };
+            var orderItems = orderCreatedEvent.Items.Select(x => new OrderItem
+            {
+                Id = x.OrderItemId,
+                OrderId = order.Id,
+                Quantity = x.Quantity,
+                ProductId = x.ProductId,
+            });
+
             await context.ShippingRecords.AddAsync(shippingRecord, cancellationToken);
+            await context.Orders.AddAsync(order, cancellationToken);
+            await context.OrderItems.AddRangeAsync(orderItems, cancellationToken);
 
             // Save changes to the product stock levels
             await context.SaveChangesAsync(cancellationToken);

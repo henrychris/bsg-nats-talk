@@ -52,13 +52,18 @@ while (true)
 
     await Task.Delay(TimeSpan.FromSeconds(DUPLICATE_WINDOW_IN_SECONDS + 1)); // change this to less than the duplicate window to catch duplicates
 
-    await jsContext.PublishAsync(
+    var res = await jsContext.PublishAsync(
         NatsConfig.SubjectName,
         message,
         serializer: new NatsSerializer<Message>(),
         opts: jsPubOpts
     );
     Console.WriteLine("published duplicate message");
+
+    if (res.Duplicate)
+    {
+        Console.WriteLine("This is a duplicate. not stored.");
+    }
 
     Console.WriteLine($"Published message #{messageCount}.");
     messageCount++;
