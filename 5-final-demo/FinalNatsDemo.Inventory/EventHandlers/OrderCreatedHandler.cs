@@ -19,6 +19,7 @@ namespace FinalNatsDemo.Inventory.EventHandlers
                 await natsWrapper.ConsumeFromJetStreamAsync<OrderCreatedEvent>(
                     async (message) => await HandleOrderCreatedAsync(message, stoppingToken),
                     streamName: OrderCreatedEvent.STREAM,
+                    "inventory-order-created-consumer",
                     cancellationToken: stoppingToken
                 );
             }

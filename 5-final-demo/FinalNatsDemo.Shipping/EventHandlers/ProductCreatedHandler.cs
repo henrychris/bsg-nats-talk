@@ -19,6 +19,7 @@ namespace FinalNatsDemo.Shipping.EventHandlers
                 await natsWrapper.ConsumeFromJetStreamAsync<ProductCreatedEvent>(
                     async (message) => await CreateProductAsync(message, stoppingToken),
                     streamName: ProductCreatedEvent.STREAM,
+                    "shipping-product-created-consumer",
                     cancellationToken: stoppingToken
                 );
             }

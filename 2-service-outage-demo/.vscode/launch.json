@@ -68,6 +68,15 @@
 			],
 			"preLaunchTask": "build-all",
 			"stopAll": false
+		},
+		{
+			"name": "pub/consumer",
+			"configurations": [
+				"Launch Publisher",
+				"Launch Consumer"
+			],
+			"preLaunchTask": "build-all",
+			"stopAll": false
 		}
 	]
 }

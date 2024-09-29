@@ -12,7 +12,7 @@ namespace FinalNatsDemo.Inventory.Features.Products.GetAllProducts
     {
         public async Task<Result<List<GetProductResponse>>> Handle(GetAllProductsRequest request, CancellationToken cancellationToken)
         {
-            var productResponse = await context.Products.Select(x => ProductMapper.ToGetProductResponse(x)).ToListAsync();
+            var productResponse = await context.Products.Select(x => ProductMapper.ToGetProductResponse(x)).ToListAsync(cancellationToken: cancellationToken);
 
             logger.LogInformation("Fetched {count} product(s)", productResponse.Count);
             return Result<List<GetProductResponse>>.Success(productResponse);

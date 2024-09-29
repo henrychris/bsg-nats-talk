@@ -23,21 +23,6 @@ public class Consumer(ILogger<Consumer> logger) : BackgroundService
                 DeliverPolicy =
                     ConsumerConfigDeliverPolicy.New // change this to change how messages are retrieved
                 ,
-                Backoff =
-                [
-                    (long)TimeSpan.FromSeconds(5).TotalNanoseconds, // 5 seconds
-                    (long)TimeSpan.FromSeconds(10).TotalNanoseconds, // 10 seconds
-                    (long)TimeSpan.FromSeconds(30).TotalNanoseconds, // 30 seconds
-                    (long)TimeSpan.FromMinutes(2).TotalNanoseconds, // 2 minutes
-                    (long)TimeSpan.FromMinutes(5).TotalNanoseconds, // 5 minutes
-                    (long)
-                        TimeSpan
-                            .FromMinutes(10)
-                            .TotalNanoseconds // 10 minutes
-                    ,
-                ],
-                AckWait = TimeSpan.FromSeconds(10),
-                MaxDeliver = 7,
             },
             stoppingToken
         );
@@ -67,8 +52,8 @@ public class Consumer(ILogger<Consumer> logger) : BackgroundService
                     msg.Data.Content
                 );
 
-                await msg.AckAsync(cancellationToken: stoppingToken);
-                // await msg.NakAsync(delay: TimeSpan.FromSeconds(5), cancellationToken: stoppingToken);
+                var ackOpts = new AckOpts { DoubleAck = true };
+                await msg.AckAsync(ackOpts, stoppingToken);
             }
         }
     }

@@ -25,13 +25,14 @@ namespace FinalNatsDemo.Common.Nats
         Task ConsumeFromJetStreamAsync<TMessage>(
             Func<TMessage, Task> onMessage,
             string streamName,
+            string consumerName,
             CancellationToken cancellationToken = default
         );
     }
 
     public class NatsWrapper : INatsWrapper
     {
-        private const int DUPLICATE_WINDOW_IN_SECONDS = 3;
+        private const int DUPLICATE_WINDOW_IN_SECONDS = 86400;
         private readonly ILogger<NatsWrapper> _logger;
         private readonly NatsConnection _connection;
         private readonly NatsJSContext _natsJsContext;
@@ -106,10 +107,11 @@ namespace FinalNatsDemo.Common.Nats
         public async Task ConsumeFromJetStreamAsync<TMessage>(
             Func<TMessage, Task> onMessage,
             string streamName,
+            string consumerName,
             CancellationToken cancellationToken = default
         )
         {
-            var consumer = await CreateConsumerAsync(streamName, cancellationToken);
+            var consumer = await CreateConsumerAsync(streamName, consumerName, cancellationToken);
             _logger.LogInformation("Created consumer for stream: {streamName}.", streamName);
 
             while (!cancellationToken.IsCancellationRequested)
@@ -132,20 +134,23 @@ namespace FinalNatsDemo.Common.Nats
                     }
 
                     await onMessage(msg.Data);
-                    await msg.AckAsync(cancellationToken: cancellationToken);
+
+                    var ackOpts = new AckOpts { DoubleAck = true };
+                    await msg.AckAsync(ackOpts, cancellationToken);
                 }
             }
         }
 
         private async Task<INatsJSConsumer> CreateConsumerAsync(
             string streamName,
+            string consumerName,
             CancellationToken cancellationToken
         )
         {
-            var consumerConfig = new ConsumerConfig()
+            var consumerConfig = new ConsumerConfig(consumerName)
             {
-                ReplayPolicy = ConsumerConfigReplayPolicy.Original,
-                DeliverPolicy = ConsumerConfigDeliverPolicy.New,
+                ReplayPolicy = ConsumerConfigReplayPolicy.Instant,
+                DeliverPolicy = ConsumerConfigDeliverPolicy.All,
             };
 
             return await _natsJsContext.CreateOrUpdateConsumerAsync(

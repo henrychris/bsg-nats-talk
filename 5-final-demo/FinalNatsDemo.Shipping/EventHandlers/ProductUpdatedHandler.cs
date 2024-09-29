@@ -19,6 +19,7 @@ namespace FinalNatsDemo.Shipping.EventHandlers
                 await natsWrapper.ConsumeFromJetStreamAsync<ProductUpdatedEvent>(
                     async (message) => await HandleProductUpdatedAsync(message, stoppingToken),
                     streamName: ProductUpdatedEvent.STREAM,
+                    "shipping-product-updated-consumer",
                     cancellationToken: stoppingToken
                 );
             }

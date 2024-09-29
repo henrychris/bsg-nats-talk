@@ -22,6 +22,7 @@ namespace FinalNatsDemo.Shipping.EventHandlers
                 await natsWrapper.ConsumeFromJetStreamAsync<OrderCreatedEvent>(
                     async (message) => await HandleOrderCreatedAsync(message, stoppingToken),
                     streamName: OrderCreatedEvent.STREAM,
+                    "shipping-order-created-consumer",
                     cancellationToken: stoppingToken
                 );
             }
@@ -33,6 +34,13 @@ namespace FinalNatsDemo.Shipping.EventHandlers
             var context = scope.ServiceProvider.GetRequiredService<ShippingDataContext>();
 
             logger.LogInformation("Received OrderCreatedEvent for OrderId: {OrderId}", orderCreatedEvent.OrderId);
+
+            var doesOrderExist = await context.Orders.AnyAsync(x => x.Id == orderCreatedEvent.OrderId, cancellationToken: cancellationToken);
+            if (doesOrderExist)
+            {
+                logger.LogWarning("This order already exists. Ignoring event.");
+                return;
+            }
 
             var productIds = orderCreatedEvent.Items.Select(item => item.ProductId).ToList();
             var products = await context.Products.Where(p => productIds.Contains(p.Id)).ToListAsync(cancellationToken);

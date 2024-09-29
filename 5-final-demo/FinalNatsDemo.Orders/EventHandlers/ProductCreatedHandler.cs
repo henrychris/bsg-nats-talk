@@ -19,6 +19,7 @@ namespace FinalNatsDemo.Orders.EventHandlers
                 await natsWrapper.ConsumeFromJetStreamAsync<ProductCreatedEvent>(
                     async (message) => await CreateProductAsync(message, stoppingToken),
                     streamName: ProductCreatedEvent.STREAM,
+                    "order-product-created-consumer",
                     cancellationToken: stoppingToken
                 );
             }
